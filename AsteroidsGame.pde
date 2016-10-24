@@ -4,8 +4,8 @@ import java.util.*;
 final float TURN_RIGHT = 0.07;
 final float TURN_LEFT = -0.07;
 SpaceShip ss;
-Vector <Enemy> swarm;
-Vector <Bullet> bullets;
+ArrayList <Enemy> swarm;
+ArrayList <Bullet> bullets;
 float hiveMind = 0;
 int counter = 0;
 PFont thisFont;
@@ -23,8 +23,8 @@ public void setup()
 public void init()
 {
   ss = new SpaceShip();
-  swarm = new Vector <Enemy> ();
-  bullets = new Vector <Bullet> ();
+  swarm = new ArrayList();
+  bullets = new ArrayList();
   thisFont = createFont("Arial",16,true);
   counter = 0;
   lives = 3;
@@ -52,19 +52,19 @@ public void draw()
   if (frameCount%60==0)
   {
     hiveMind = (float)(Math.random()*(2*Math.PI));
-    swarm.addElement(new Enemy());
+    swarm.add(new Enemy());
   }
   for (int i = 0; i < swarm.size(); i++)
   {
-    swarm.elementAt(i).changeDir(hiveMind);
-    swarm.elementAt(i).draw_me(255,0,0);
+    swarm.get(i).changeDir(hiveMind);
+    swarm.get(i).draw_me(255,0,0);
   }
   for (int i = 0; i < bullets.size(); i++)
-    bullets.elementAt(i).draw_me(0,0,255);
+    bullets.get(i).draw_me(0,0,255);
 	ss.draw_me(0,255,0);
   for (int i = 0; i < swarm.size(); i++)
   {
-    if (swarm.elementAt(i).rect_overlap(swarm.elementAt(i).X,swarm.elementAt(i).Y,20,ss.X,ss.Y,20) && !godMode)
+    if (swarm.get(i).rect_overlap(swarm.get(i).X,swarm.get(i).Y,20,ss.X,ss.Y,20) && !godMode)
     {
       swarm.remove(i);
       lives--;
@@ -73,16 +73,16 @@ public void draw()
     }
     for (int j = 0; j < bullets.size(); j++)
     {
-      if (bullets.elementAt(j).alive)
+      if (bullets.get(j).alive)
       {
-        if (swarm.elementAt(i).rect_overlap(swarm.elementAt(i).X,swarm.elementAt(i).Y,20,bullets.elementAt(j).X,bullets.elementAt(j).Y,10))
+        if (swarm.get(i).rect_overlap(swarm.get(i).X,swarm.get(i).Y,20,bullets.get(j).X,bullets.get(j).Y,10))
         {
           swarm.remove(i);
           bullets.remove(j);
           j = bullets.size();
           counter++;
         }
-        else if (bullets.elementAt(j).rect_overlap(ss.X,ss.Y,20,bullets.elementAt(j).X,bullets.elementAt(j).Y,10) && godMode)
+        else if (bullets.get(j).rect_overlap(ss.X,ss.Y,20,bullets.get(j).X,bullets.get(j).Y,10) && godMode)
         {
           //bullets.remove(j);
           //lives--;
